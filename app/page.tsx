@@ -12,9 +12,7 @@ export default function Home() {
     >
       <InputForm />
       <div>
-        {data.map((v, i) => {
-          return <TodoList key={i} {...v} />;
-        })}
+        <TodoList />
       </div>
     </main>
   );

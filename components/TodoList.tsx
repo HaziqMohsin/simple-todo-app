@@ -1,16 +1,26 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { data } from "@/utils/exampleData";
+import { useAppStore } from "@/store/useStore";
 
-type Props = {
-  text: string;
-};
+type Props = {};
 
-const TodoList = ({ text }: Props) => {
+const TodoList = ({}: Props) => {
+  //   const [taskList, setTaskList] = useState<IResponse[]>(data);
+  const taskList = useAppStore((state) => state.taskList);
+
   return (
-    <div className="flex gap-2 items-center">
-      <div>
-        <input type="checkbox" className="" />
-      </div>
-      <div>{text}</div>
+    <div>
+      {taskList.map((v, i) => {
+        return (
+          <div key={i} className="flex gap-2 items-center">
+            <div>
+              <input type="checkbox" className="" />
+            </div>
+            <div>{v.text}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };

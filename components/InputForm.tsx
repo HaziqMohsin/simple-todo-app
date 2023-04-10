@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { data } from "@/utils/exampleData";
 import { v4 as uuidv4 } from "uuid";
+import { useAppStore } from "@/store/useStore";
 
 type Props = {};
 
@@ -11,11 +11,13 @@ type Inputs = {
 };
 
 const InputForm = (props: Props) => {
-  const [listTask, setListTask] = useState(data);
+  const addTask = useAppStore((state) => state.addTask);
+
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -26,17 +28,15 @@ const InputForm = (props: Props) => {
       text: data.taskValue,
       status: "pending",
     };
-    setListTask([...listTask, param]);
-    console.log(id);
-    console.log(param);
-    console.log(listTask);
+    addTask(param);
+    reset();
   };
 
   return (
     <form className="flex gap-3 w-full mb-10" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex-1 relative">
         <input
-          className="p-4 w-full rounded-lg"
+          className="p-4 w-full rounded-lg text-black"
           {...register("taskValue", { required: true })}
         />
         {errors.taskValue && (
