@@ -20,11 +20,32 @@ export const createTaskSlice: StateCreator<ITask> = (set, get) => ({
     },
   ],
   addTask: (value: TaskList) => {
-    set((state) => ({ taskList: [...state.taskList, value] }));
+    set((state) => ({ taskList: [value, ...state.taskList] }));
   },
   removeTask: (value: string) => {
-    const taskList = get().taskList;
-    const updateTaskList = taskList.filter((v) => v.id !== value);
-    set(() => ({ taskList: updateTaskList }));
+    set((state) => ({
+      taskList: state.taskList.filter((v) => v.id !== value),
+    }));
+  },
+  checkedTask: (value: number) => {
+    const taskListCurrent = get().taskList;
+    let selected = taskListCurrent[value];
+
+    set((state) => ({
+      taskList: state.taskList
+        .map((v) => {
+          if (v.id === selected.id) {
+            return {
+              ...v,
+              status: v.status === "pending" ? "completed" : "pending",
+            };
+          } else {
+            return v;
+          }
+        })
+        .sort((a, b) =>
+          b.status > a.status ? 1 : a.status > b.status ? -1 : 0
+        ),
+    }));
   },
 });

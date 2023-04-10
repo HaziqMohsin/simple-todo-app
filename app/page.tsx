@@ -11,9 +11,7 @@ export default function Home() {
       className={`${inter.className} flex min-h-screen flex-col items-center px-4 py-24 md:p-24`}
     >
       <InputForm />
-      <div>
-        <TodoList />
-      </div>
+      <TodoList />
     </main>
   );
 }
